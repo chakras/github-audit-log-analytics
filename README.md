@@ -67,7 +67,7 @@ GitHub natively supports streaming audit logs in near real-time. Fabric's EventS
 2. Choose **Custom Endpoint** as the source and publish it.
 3. Click on the published EventStream and **note down the Event Hub connection details**.
 
-![EventStream Raw](EventStream-raw.jpg)
+![EventStream Raw](images/event-hub-ep.jpg)
 
 ### 2. Configure Audit Log Streaming from GitHub
 
@@ -79,7 +79,7 @@ GitHub natively supports streaming audit logs in near real-time. Fabric's EventS
 3. Create a new streaming job by entering the Event Hub details captured in the previous step.
 4. Start the stream.
 
-![GitHub Log Streaming Settings](github-log-streaming-settings.png)
+![GitHub Log Streaming Settings](images/github-log-streaming-settings.png)
 
 ### 3. Preview Logs on EventStream
 
@@ -87,7 +87,7 @@ Once the streaming job is running, return to the Fabric EventStream and click on
 
 > It typically takes a few minutes for the first logs to arrive. Be patient and refresh the data preview window.
 
-![Source Data Preview](source-data-preview.png)
+![Source Data Preview](images/source-data-preview.png)
 
 ### 4. Configure EventHouse as Target
 
@@ -96,14 +96,14 @@ Once the streaming job is running, return to the Fabric EventStream and click on
 1. Click **Edit** mode on the EventStream to add details for the EventHouse, the KQL Database, and the target table.
 2. Click **Publish**. Upon successful completion, preview the data by clicking the EventHouse target on the EventStream job.
 
-![EventHouse Target Settings](eventhouse-target-settings.png)
+![EventHouse Target Settings](images/eventhouse-target-settings.png)
 
 ### 5. Data Sampling and Testing
 
 1. Open the KQL Database in your EventHouse and click the target table for quick data validation.
 2. Open a new **KQL Queryset** from the top of the screen.
 
-![KQL Queryset Creation](kql-queryset-creation.png)
+![KQL Queryset Creation](images/kql-queryset-creation.png)
 
 Run the following queries to verify data is loading in real-time:
 
@@ -121,7 +121,7 @@ YOUR_TABLE_HERE
 | summarize IngestionCount = count() by bin(ingestion_time(), 5m)
 ```
 
-![EventHouse Data Preview](eventhouse-data-preview.png)
+![EventHouse Data Preview](images/eventhouse-data-preview.png)
 
 ---
 
@@ -135,7 +135,7 @@ Silver layer tables are created using KQL Database **update policies**. These po
 
 > **Reference:** [Tutorial: Route Data Using Table Update Policies - Kusto | Microsoft Learn](https://learn.microsoft.com/en-us/kusto/management/update-policy-tutorial)
 
-![Raw Table Schema](raw-table-schema.png)
+![Raw Table Schema](images/raw-table-schema.png)
 
 **Create silver layer tables:**
 
@@ -253,7 +253,7 @@ Once the silver and gold layer tables are created, query them the same way you q
 
 The full lineage of the raw → silver → gold real-time pipeline is visible from the **Entity Diagram (Preview)** button on the KQL Database page.
 
-![Entity Diagram](entity-daigram.png)
+![Entity Diagram](images/entity-daigram.png)
 
 ---
 
