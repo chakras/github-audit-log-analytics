@@ -1,0 +1,11 @@
+// Use "take" to view a sample number of records in the table and check the data.
+YOUR_TABLE_HERE
+| take 100
+
+// See how many records are in the table.
+YOUR_TABLE_HERE
+| count
+
+// This query returns the number of ingestions every 5 minutes in the given table.
+YOUR_TABLE_HERE
+| summarize IngestionCount = count() by bin(ingestion_time(), 5m)
