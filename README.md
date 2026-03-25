@@ -53,7 +53,7 @@ For example, when an administrator adds a new team member or a developer pushes 
 
 Below is the end-to-end solution architecture:
 
-![Solution Architecture](images\e2e-solution-architecture.png)
+![Solution Architecture](images/e2e-solution-architecture.png)
 
 ---
 
