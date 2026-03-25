@@ -263,7 +263,7 @@ Microsoft Fabric RTI provides built-in **real-time dashboards** out of the box.
 
 > **Reference:** [Create a Real-Time Dashboard - Microsoft Fabric | Microsoft Learn](https://learn.microsoft.com/en-us/fabric/real-time-intelligence/dashboard-real-time-create)
 
-![Real-Time Dashboard](pbi-report.jpg)
+![Real-Time Dashboard](images/real-time-dashboard.png)
 
 The KQL queries used to build each visual are available in this repository in the path `scripts\03-real-time-dashboard-scripts.kql`.
 
@@ -272,6 +272,8 @@ The KQL queries used to build each visual are available in this repository in th
 You can also build a **conversational AI layer** on top of your GitHub audit logs using Microsoft Fabric Data Agents.
 
 > **Reference:** [Fabric Data Agent Creation - Microsoft Fabric | Microsoft Learn](https://learn.microsoft.com/en-us/fabric/data-science/concept-data-agent)
+
+![Data Agent](images/data-agent-test.png)
 
 ## Future Enhancements
 
