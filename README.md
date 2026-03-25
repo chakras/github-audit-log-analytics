@@ -2,8 +2,6 @@
 
 Build a powerful, near real-time analytics solution for GitHub audit logs using Microsoft Fabric's Real-Time Intelligence (RTI).
 
-![Solution Overview](GH+Fabric.jpg)
-
 ## Table of Contents
 
 - [Overview](#overview)
