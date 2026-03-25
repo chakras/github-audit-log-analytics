@@ -1,0 +1,42 @@
+// Total Distinct Events
+table2_nn8el7
+| distinct action
+|count
+
+// Audit Events Missing Repo Details
+table2_nn8el7
+| where isnull( repo) or isempty(repo )
+|count
+
+// Distinct Operations
+table2_nn8el7
+| distinct operation_type
+| where isnotnull( operation_type) and isnotempty( operation_type)
+| count 
+
+// Count of GitHub Organizations
+table2_nn8el7
+| where isnotempty( org) and isnotnull( org) 
+| distinct org
+| count 
+
+// Count of Actions
+table2_nn8el7 | extend action_after_dot = extract(@"^[^.]*\.(.*)$", 1, action) | summarize count_action_after_dot=count() by action_after_dot
+
+// Operation Type Distribution
+table2_nn8el7
+| where isnotempty( operation_type) and isnotnull( operation_type)
+| summarize count() by operation_type
+
+// Top 10 Repos with Max Events
+table2_nn8el7
+| where isnotnull(repo) and isnotempty(repo)
+| summarize eventCount=count() by repo
+| top 5 by eventCount desc
+
+// User Logins over Time
+table2_nn8el7
+| extend timestamp = unixtime_milliseconds_todatetime(timestamp)
+//| where action in ("user.login") and timestamp between (todatetime("2026-02-16")..todatetime("datetime(2026-02-20)"))
+| where action in ("user.login") and timestamp >= todatetime("2026-03-16")
+| summarize count(actor) by bin(timestamp,10m)
