@@ -269,7 +269,7 @@ The KQL queries used to build each visual are available in this repository in th
 
 ## Data Agent
 
-You can also build a **conversational AI layer** on top of your GitHub audit logs using Microsoft Fabric Data Agents.
+You can also build a **conversational AI layer** on top of your GitHub audit logs using Microsoft Fabric Data Agents. In my case, I have created the following real-time dashboard with the data from raw data itself
 
 > **Reference:** [Fabric Data Agent Creation - Microsoft Fabric | Microsoft Learn](https://learn.microsoft.com/en-us/fabric/data-science/concept-data-agent)
 
