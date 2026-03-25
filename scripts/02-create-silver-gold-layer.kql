@@ -1,0 +1,108 @@
+
+table2_nn8el7
+| take 10
+
+table2_nn8el7
+| getschema;
+
+table2_nn8el7 
+| take 10We
+| extend action_category = extract(@"^([^.]+)", 1, action), action_name = extract(@"\.([^.]+)$", 1, action)
+| project action,action_category,action_name,operation_type,timestamp
+
+
+.create table silver_action (action: string, action_category: string, action_name: string, operation_type: string,timestamp: datetime)
+.create table silver_actor (actor_id: long, actor: string,timestamp: datetime)
+.create table silver_org (org: string, org_id: long,business: string,timestamp: datetime)
+.create table silver_github_logs based-on table2_nn8el7
+
+
+// Create Update policies
+
+.execute database script <|
+  .create-or-alter function Get_Action() {
+    table2_nn8el7
+    | extend
+      action = tostring(action),
+      action_category = tostring(extract(@"^([^.]+)", 1, action)),
+      action_name = tostring(extract(@"\.([^.]+)$", 1, action)),
+      operation_type = tostring(operation_type),
+      timestamp = unixtime_milliseconds_todatetime(timestamp)
+    | project action, action_category, action_name, operation_type, timestamp
+  }
+   .create-or-alter function Get_Actor() {
+    table2_nn8el7
+    | extend
+      actor_id = tolong(actor_id),
+      actor = tostring(actor),
+      timestamp = unixtime_milliseconds_todatetime(timestamp)
+    | project actor_id,actor, timestamp
+  }
+   .create-or-alter function Get_Org() {
+    table2_nn8el7
+    | extend
+      org = tostring(org),
+      org_id = tolong(org_id),
+      business = tostring(business),
+      timestamp = unixtime_milliseconds_todatetime(timestamp)
+    | project org,org_id,business,timestamp
+  }
+    .create-or-alter function Get_GitHub_Logs() {
+    table2_nn8el7
+  }
+
+
+
+.execute database script <|
+  .alter table silver_github_logs policy update "[{\"IsEnabled\":true,\"Source\":\"table2_nn8el7\",\"Query\":\"Get_GitHub_Logs\",\"IsTransactional\":false,\"PropagateIngestionProperties\":true,\"ManagedIdentity\":null}]"
+  .alter table silver_action policy update "[{\"IsEnabled\":true,\"Source\":\"table2_nn8el7\",\"Query\":\"Get_Action\",\"IsTransactional\":false,\"PropagateIngestionProperties\":true,\"ManagedIdentity\":null}]"
+  .alter table silver_actor policy update "[{\"IsEnabled\":true,\"Source\":\"table2_nn8el7\",\"Query\":\"Get_Actor\",\"IsTransactional\":false,\"PropagateIngestionProperties\":true,\"ManagedIdentity\":null}]"
+  .alter table silver_org policy update "[{\"IsEnabled\":true,\"Source\":\"table2_nn8el7\",\"Query\":\"Get_Org\",\"IsTransactional\":false,\"PropagateIngestionProperties\":true,\"ManagedIdentity\":null}]"
+
+
+//Test data in derived tables
+table2_nn8el7
+| summarize count=count()
+
+silver_github_logs
+
+// Create Materialized Views
+
+.create materialized-view with (backfill=true) gold_action on table silver_action
+{
+    silver_action
+    | summarize arg_max(timestamp,*) by action, action_category, action_name, operation_type
+}
+
+.create materialized-view with (backfill=true) gold_actor on table silver_actor
+{
+    silver_actor
+    | summarize arg_max(timestamp,*) by actor_id,actor
+}
+
+.create materialized-view with (backfill=true) gold_org on table silver_org
+{
+    silver_org
+    | summarize arg_max(timestamp,*) by org,org_id,business
+}
+
+
+.execute database script <|
+  .create-or-alter function Get_Fact_Audit_Events() {
+    table2_nn8el7
+    | extend timestamp_dt = unixtime_milliseconds_todatetime(timestamp)
+    | project-away timestamp
+  }
+
+.execute database script <|
+  .set-or-append gold_audit_log_events <| Get_Fact_Audit_Events | take 0
+
+.execute database script <|
+  .alter table gold_audit_log_events policy update "[{\"IsEnabled\":true,\"Source\":\"table2_nn8el7\",\"Query\":\"Get_Fact_Audit_Events\",\"IsTransactional\":false,\"PropagateIngestionProperties\":true,\"ManagedIdentity\":null}]"
+
+
+silver_github_logs
+| summarize rec_count=count()
+
+gold_audit_log_events
+| take 10
