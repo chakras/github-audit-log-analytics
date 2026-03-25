@@ -53,7 +53,7 @@ For example, when an administrator adds a new team member or a developer pushes 
 
 Below is the end-to-end solution architecture:
 
-![Solution Architecture](Designer.png)
+![Solution Architecture](images\e2e-solution-architecture.png)
 
 ---
 
@@ -265,7 +265,7 @@ Microsoft Fabric RTI provides built-in **real-time dashboards** out of the box.
 
 ![Real-Time Dashboard](pbi-report.jpg)
 
-The KQL queries used to build each visual are available in this repository under `KQL-Real-Time-Dashboard-Queries.kql`.
+The KQL queries used to build each visual are available in this repository in the path `scripts\03-real-time-dashboard-scripts.kql`.
 
 ## Data Agent
 
