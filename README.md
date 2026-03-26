@@ -91,6 +91,7 @@ Once the streaming job is running, return to the Fabric EventStream and click on
 
 Please note, audit logs from GitHub contains varied information across multiple schema objects. I have illustrated the example using the schema object **nn8el7**. In order to capture the data in it's entirity, you can also extract it from other schemas as well. The image below shows how you can preview the data from other schemas
 
+![Source Data Preview](images/github-log-schemas.png)
 
 ### 4. Configure EventHouse as Target
 
