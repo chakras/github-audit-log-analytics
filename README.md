@@ -89,6 +89,9 @@ Once the streaming job is running, return to the Fabric EventStream and click on
 
 ![Source Data Preview](images/source-data-preview.png)
 
+Please note, audit logs from GitHub contains varied information across multiple schema objects. I have illustrated the example using the schema object **nn8el7**. In order to capture the data in it's entirity, you can also extract it from other schemas as well. The image below shows how you can preview the data from other schemas
+
+
 ### 4. Configure EventHouse as Target
 
 **EventHouse** is RTI's analytics-optimized database for streaming data. Built on Azure Data Explorer's **Kusto** technology, it is designed for massive scale and fast queries on log and semi-structured data.
